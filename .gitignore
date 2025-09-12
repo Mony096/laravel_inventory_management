@@ -1,0 +1,22 @@
+# Laravel / PHP
+/vendor/
+node_modules/
+.env
+.env.*
+.phpunit.result.cache
+Homestead.yaml
+Homestead.json
+/public/storage
+/storage/*.key
+/storage/debugbar/*
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+
+# OS / IDE specific
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
