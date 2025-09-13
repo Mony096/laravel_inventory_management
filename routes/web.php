@@ -35,5 +35,4 @@ Route::resources([
     'business_partners' =>  BusinessPartnerController::class,
     'business_places' =>  BusinessPlaceController::class,
     'inventory_counts' =>  InventoryCountController::class,
-
 ]);

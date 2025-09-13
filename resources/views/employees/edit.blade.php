@@ -1,59 +1,105 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Edit Employee</h2>
-    <form action="{{ route('employees.update', $employee) }}" method="POST">
-        @csrf @method('PUT')
-        <div class="mb-3">
-            <label>First Name</label>
-            <input type="text" name="first_name" class="form-control" value="{{ $employee->first_name }}" required>
-        </div>
-        <div class="mb-3">
-            <label>Last Name</label>
-            <input type="text" name="last_name" class="form-control" value="{{ $employee->last_name }}" required>
-        </div>
-        <div class="mb-3">
-            <label>Gender</label>
-            <select name="gender" class="form-control" required>
-                <option value="M" {{ $employee->gender == 'M' ? 'selected' : '' }}>Male</option>
-                <option value="F" {{ $employee->gender == 'F' ? 'selected' : '' }}>Female</option>
-                <option value="other" {{ $employee->gender == 'other' ? 'selected' : '' }}>Other</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label>Date of Birth</label>
-            <input type="date" name="date_of_birth" class="form-control" value="{{ $employee->date_of_birth }}" required>
-        </div>
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control" value="{{ $employee->email }}" required>
-        </div>
-        <div class="mb-3">
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control" value="{{ $employee->phone }}">
-        </div>
-        <div class="mb-3">
-            <label>Address</label>
-            <textarea name="address" class="form-control">{{ $employee->address }}</textarea>
-        </div>
-       <div class="mb-3">
-            <label>Position</label>
-            <select name="position" class="form-control" required>
-                <option value="TL" {{ $employee->position == 'TL' ? 'selected' : '' }}>Team Lead</option>
-                <option value="ST" {{ $employee->position == 'ST' ? 'selected' : '' }}>Staff</option>
-                <option value="other" {{ $employee->gender == 'other' ? 'selected' : '' }}>Other</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label>Salary</label>
-            <input type="number" step="0.01" name="salary" class="form-control" value="{{ $employee->salary }}" required>
-        </div>
-        <div class="mb-3">
-            <label>Hire Date</label>
-            <input type="date" name="hire_date" class="form-control" value="{{ $employee->hire_date }}" required>
-        </div>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">
+            <i class="bi bi-pencil-square"></i> Edit Employee
+        </h2>
+        <a href="{{ route('employees.index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </div>
 
-        <button class="btn btn-success">Update</button>
-        <a href="{{ route('employees.index') }}" class="btn btn-secondary">Cancel</a>
-    </form>
+    {{-- Form Card --}}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form action="{{ route('employees.update', $employee) }}" method="POST">
+                @csrf @method('PUT')
+
+                <div class="row g-3">
+                    {{-- First Name --}}
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label fw-semibold">First Name</label>
+                        <input type="text" name="first_name" class="form-control" id="firstName" value="{{ $employee->first_name }}" required>
+                    </div>
+
+                    {{-- Last Name --}}
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label fw-semibold">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" id="lastName" value="{{ $employee->last_name }}" required>
+                    </div>
+
+                    {{-- Gender --}}
+                    <div class="col-md-6">
+                        <label for="gender" class="form-label fw-semibold">Gender</label>
+                        <select name="gender" class="form-select" id="gender" required>
+                            <option value="">-- Select --</option>
+                            <option value="M" {{ $employee->gender == 'M' ? 'selected' : '' }}>Male</option>
+                            <option value="F" {{ $employee->gender == 'F' ? 'selected' : '' }}>Female</option>
+                            <option value="other" {{ $employee->gender == 'other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                    </div>
+
+                    {{-- Date of Birth --}}
+                    <div class="col-md-6">
+                        <label for="dob" class="form-label fw-semibold">Date of Birth</label>
+                        <input type="date" name="date_of_birth" class="form-control" id="dob" value="{{ $employee->date_of_birth }}" required>
+                    </div>
+
+                    {{-- Email --}}
+                    <div class="col-md-6">
+                        <label for="email" class="form-label fw-semibold">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" value="{{ $employee->email }}" required>
+                    </div>
+
+                    {{-- Phone --}}
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label fw-semibold">Phone</label>
+                        <input type="text" name="phone" class="form-control" id="phone" value="{{ $employee->phone }}">
+                    </div>
+
+                    {{-- Address --}}
+                    <div class="col-12">
+                        <label for="address" class="form-label fw-semibold">Address</label>
+                        <textarea name="address" class="form-control" id="address">{{ $employee->address }}</textarea>
+                    </div>
+
+                    {{-- Position --}}
+                    <div class="col-md-6">
+                        <label for="position" class="form-label fw-semibold">Position</label>
+                        <select name="position" class="form-select" id="position" required>
+                            <option value="">-- Select --</option>
+                            <option value="TL" {{ $employee->position == 'TL' ? 'selected' : '' }}>Team Lead</option>
+                            <option value="ST" {{ $employee->position == 'ST' ? 'selected' : '' }}>Staff</option>
+                            <option value="other" {{ $employee->position == 'other' ? 'selected' : '' }}>Other</option>
+                        </select>
+                    </div>
+
+                    {{-- Salary --}}
+                    <div class="col-md-6">
+                        <label for="salary" class="form-label fw-semibold">Salary</label>
+                        <input type="number" step="0.01" name="salary" class="form-control" id="salary" value="{{ $employee->salary }}" required>
+                    </div>
+
+                    {{-- Hire Date --}}
+                    <div class="col-md-6">
+                        <label for="hireDate" class="form-label fw-semibold">Hire Date</label>
+                        <input type="date" name="hire_date" class="form-control" id="hireDate" value="{{ $employee->hire_date }}" required>
+                    </div>
+                </div>
+
+                {{-- Buttons --}}
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-save"></i> Update
+                    </button>
+                    <a href="{{ route('employees.index') }}" class="btn btn-secondary px-4">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection

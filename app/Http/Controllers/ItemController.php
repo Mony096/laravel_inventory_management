@@ -8,11 +8,33 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    public function index()
-    {
-        $items = Item::all();
-        return view('items.index', compact('items'));
+public function index(Request $request)
+{
+    // ✅ Start query
+    $query = Item::query();
+    // ✅ Apply search filter (by code or description)
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('item_code', 'like', "%{$search}%")
+              ->orWhere('item_desc', 'like', "%{$search}%");
+        });
     }
+    // // ✅ Filter by warehouse (example if you have warehouse field)
+    // if ($request->filled('warehouse')) {
+    //     $query->where('warehouse_id', $request->warehouse);
+    //     // 👆 Change `warehouse_name` to your actual column
+    // }
+
+    // ✅ Pagination (10 items per page)
+    $items = $query->orderBy('item_code')->paginate(10);
+
+    // Keep query string for pagination links
+    $items->appends($request->all());
+
+    return view('items.index', compact('items'));
+}
+
 
     public function create()
     {

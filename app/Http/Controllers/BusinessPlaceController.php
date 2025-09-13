@@ -11,11 +11,25 @@ class BusinessPlaceController extends Controller
     /**
      * Display a listing of the business partners.
      */
-    public function index()
-    {
-        $places = BusinessPlace::all();
-        return view('business_places.index', compact('places'));
+public function index(Request $request)
+{
+    $query = BusinessPlace::query();
+
+    // ✅ Filter by search
+    if ($request->filled('search')) {
+        $search = $request->input('search');
+        $query->where(function($q) use ($search) {
+            $q->where('Name', 'like', "%{$search}%")
+              ->orWhere('AliasName', 'like', "%{$search}%")
+              ->orWhere('Contact', 'like', "%{$search}%");
+        });
     }
+
+    // ✅ Paginate results (10 per page)
+    $places = $query->orderBy('id', 'desc')->paginate(10);
+
+    return view('business_places.index', compact('places'));
+}
 
     /**
      * Show the form for creating a new business partner.

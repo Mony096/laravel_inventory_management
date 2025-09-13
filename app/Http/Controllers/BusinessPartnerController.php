@@ -10,11 +10,27 @@ class BusinessPartnerController extends Controller
     /**
      * Display a listing of the business partners.
      */
-    public function index()
-    {
-        $partners = BusinessPartner::all();
-        return view('business_partners.index', compact('partners'));
+   public function index(Request $request)
+{
+    // Start query
+    $query = BusinessPartner::query();
+
+    // Apply search filter
+    if ($request->has('search') && !empty($request->search)) {
+        $search = $request->search;
+        $query->where('CardCode', 'like', "%{$search}%")
+              ->orWhere('CardName', 'like', "%{$search}%");
     }
+
+    // Paginate results (10 per page)
+    $partners = $query->orderBy('id', 'desc')->paginate(10);
+
+    // Keep search params in pagination links
+    $partners->appends($request->all());
+
+    return view('business_partners.index', compact('partners'));
+}
+
 
     /**
      * Show the form for creating a new business partner.

@@ -14,11 +14,34 @@ use Illuminate\Support\Facades\DB;
 
 class GoodsReceiptController extends Controller
 {
-    public function index()
-    {
-        $receipts = GoodsReceipt::with('employee', 'warehouse')->latest()->paginate(10);
-        return view('goods_receipts.index', compact('receipts'));
+public function index(Request $request)
+{
+    $query = GoodsReceipt::query();
+
+    // Filters
+    if ($request->filled('number')) {
+        $query->where('number', 'like', '%' . $request->number . '%');
     }
+    if ($request->filled('employee_id')) {
+        $query->where('employee_id', $request->employee_id);
+    }
+    if ($request->filled('warehouse_id')) {
+        $query->where('warehouse_id', $request->warehouse_id);
+    }
+    if ($request->filled('supplier')) {
+        $query->where('supply_point', $request->supplier);
+    }
+
+    $receipts = $query->latest()->paginate(10)->withQueryString();
+
+    $employees = \App\Models\Employee::all();
+    $warehouses = \App\Models\Warehouse::all();
+    $partners = \App\Models\BusinessPartner::all();
+
+    return view('goods_receipts.index', compact('receipts', 'employees', 'warehouses', 'partners'));
+}
+
+
 
     public function create()
     {

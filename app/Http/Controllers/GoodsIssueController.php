@@ -14,12 +14,39 @@ use Illuminate\Support\Facades\DB;
 
 class GoodsIssueController extends Controller
 {
-     public function index()
-    {
-        $issues = GoodsIssue::with('employee', 'warehouse')->latest()->paginate(10);
-        return view('goods_issues.index', compact('issues'));
+public function index(Request $request)
+{
+    // ✅ Start query with eager loading
+    $query = GoodsIssue::with('employee', 'warehouse');
+
+    // ✅ Apply search filter (by number or employee name)
+    if ($request->filled('search')) {
+        $search = $request->search;
+        $query->where(function ($q) use ($search) {
+            $q->where('number', 'like', "%{$search}%")
+              ->orWhereHas('employee', function ($q2) use ($search) {
+                  $q2->where('first_name', 'like', "%{$search}%")
+                     ->orWhere('last_name', 'like', "%{$search}%");
+              });
+        });
     }
 
+    // ✅ Filter by warehouse
+    if ($request->filled('warehouse')) {
+        $query->where('warehouse_id', $request->warehouse);
+    }
+
+    // ✅ Pagination 10 per page
+    $issues = $query->latest()->paginate(10);
+
+    // ✅ Keep query string in pagination links
+    $issues->appends($request->all());
+
+    // ✅ Get warehouses for filter dropdown
+    $warehouses = Warehouse::all();
+
+    return view('goods_issues.index', compact('issues', 'warehouses'));
+}
     public function create()
     {
             $lastNumber = \App\Models\GoodsIssue::max('number'); 

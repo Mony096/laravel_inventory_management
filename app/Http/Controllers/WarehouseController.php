@@ -7,11 +7,28 @@ use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {
-    public function index()
-    {
-        $warehouses = Warehouse::all();
-        return view('warehouses.index', compact('warehouses'));
+public function index(Request $request)
+{
+    // Get search/filter parameters
+    $search = $request->input('search');
+
+    // Query warehouses with optional search
+    $query = Warehouse::query();
+
+    if ($search) {
+        $query->where('name', 'like', '%' . $search . '%')
+              ->orWhere('code', 'like', '%' . $search . '%');
     }
+
+    // Paginate results, 10 per page, keeping query parameters
+    $warehouses = $query->orderBy('id', 'desc')
+                        ->paginate(10)
+                        ->appends($request->query());
+
+    // Pass to the view
+    return view('warehouses.index', compact('warehouses', 'search'));
+}
+
 
     public function create()
     {

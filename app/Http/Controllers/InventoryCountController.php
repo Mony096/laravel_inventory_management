@@ -16,12 +16,33 @@ class InventoryCountController extends Controller
     /**
      * Show all inventory counts.
      */
-    public function index()
-    {
-        $counts = InventoryCount::with('warehouse')->latest() ->paginate(10);
+  public function index(Request $request)
+{
+    // Base query with warehouse relationship
+    $query = InventoryCount::with('warehouse');
 
-        return view('inventory_counts.index', compact('counts'));
+    // Optional filters
+    if ($request->filled('number')) {
+        $query->where('id', $request->number); // or another field if "number" exists
     }
+
+    if ($request->filled('employee_id')) {
+        $query->where('inventory_counter_user', $request->employee_id);
+    }
+
+    if ($request->filled('warehouse_id')) {
+        $query->where('warehouse_id', $request->warehouse_id);
+    }
+
+    // Get paginated results
+    $counts = $query->latest()->paginate(10)->withQueryString();
+
+    // Get employees and warehouses for filter dropdown
+    $employees = \App\Models\Employee::all();
+    $warehouses = \App\Models\Warehouse::all();
+
+    return view('inventory_counts.index', compact('counts', 'employees', 'warehouses'));
+}
 
     /**
      * Show form to create a new count.
