@@ -29,11 +29,16 @@
                     <input type="text" name="item_desc" class="form-control" id="itemDesc" placeholder="Enter description" required>
                 </div>
 
-                {{-- UoM --}}
+                        {{-- UoM --}}
                 <div class="mb-3">
                     <label for="uomCode" class="form-label fw-semibold">UoM</label>
-                    <input type="text" name="uom_code" class="form-control" id="uomCode" placeholder="Enter UoM" required>
+                    <select name="uom_code" id="uomCode" class="form-control" required>
+                        <option value="" disabled selected>-- Select UoM --</option>
+                        <option value="Bottle">Bottle</option>
+                        <option value="Can">Can</option>
+                    </select>
                 </div>
+
 
                 {{-- Unit Price --}}
                 <div class="mb-3">
@@ -44,8 +49,8 @@
                 {{-- Quantity on Stock --}}
                 <div class="mb-4">
                     <label for="quantityStock" class="form-label fw-semibold">Quantity on Stock</label>
-                    <input type="number" name="quantity_on_stock" class="form-control" id="quantityStock" placeholder="Enter quantity on stock" required>
-                </div>
+                    <input type="number" readonly value="0" name="quantity_on_stock" class="form-control" id="quantityStock" placeholder="Enter quantity on stock" required>
+                </div> 
 
                 {{-- Buttons --}}
                 <div class="d-flex gap-2">
