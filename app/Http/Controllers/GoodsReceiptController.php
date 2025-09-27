@@ -64,7 +64,7 @@ public function store(Request $request)
         'number' => 'required|unique:goods_receipts,number',
         'document_date' => 'required|date',
         'employee_id' => 'required|exists:employees,id',
-        'supply_point'=>'required|exists:partner,id',
+        'supply_point'=>'required|exists:business_partners,id',
         'warehouse_id' => 'required|exists:warehouses,id',
         'lines.*.item_id' => 'required|exists:items,id',
         'lines.*.item_desc' => 'required|string',

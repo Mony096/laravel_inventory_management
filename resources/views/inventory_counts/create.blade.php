@@ -56,7 +56,7 @@
 
                 <div class="table-responsive shadow-sm rounded">
                     <table class="table table-striped table-bordered table-hover align-middle" id="lines-table">
-                        <thead class="table-dark text-center">
+                        <thead class=" text-center">
                             <tr>
                                 <th>Item</th>
                                 <th>Description</th>
@@ -135,7 +135,7 @@ document.getElementById('add-line').addEventListener('click', function() {
             </select>
         </td>
         <td><input type="text" name="lines[${index}][item_desc]" class="form-control item-description" readonly required></td>
-        <td><input type="number" name="lines[${index}][in_whs_quantity]" class="form-control in_whs_quantity" min="0" required></td>
+        <td><input type="number" name="lines[${index}][in_whs_quantity]" class="form-control readonly in_whs_quantity" min="0" required></td>
         <td><input type="text" name="lines[${index}][uom_counted]" class="form-control item-uom" readonly required></td>
         <td><input type="number" name="lines[${index}][counted_qty]" class="form-control" min="0" required></td>
         <td><button type="button" class="btn btn-sm btn-danger remove-line">x</button></td>

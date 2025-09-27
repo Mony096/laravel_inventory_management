@@ -76,7 +76,7 @@
                                 <td>{{ $issue->truck_no ?? '-' }}</td>
                                 <td>{{ $issue->ship_to ?? '-' }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('goods_issues.edit', $issue->id) }}" class="btn btn-sm btn-outline-warning me-2">
+                                    <a href="{{ route('goods_issues.edit', $issue->id) }}" class="btn btn-sm btn-outline-primary me-2">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
                                     <form action="{{ route('goods_issues.destroy', $issue->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this issue?')">

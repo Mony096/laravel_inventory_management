@@ -65,7 +65,7 @@
 
                 <div class="table-responsive shadow-sm rounded">
                     <table class="table table-striped table-bordered table-hover align-middle" id="lines-table">
-                        <thead class="table-dark text-center">
+                        <thead class=" text-center">
                             <tr>
                                 <th>Item</th>
                                 <th>Description</th>
